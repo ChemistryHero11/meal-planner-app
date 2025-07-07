@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block title %}Meal Plan - Meal Planner{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <h1 class="display-5">Weekly Meal Plan</h1>
+        <p class="lead">Create a personalized meal plan based on your preferences</p>
+    </div>
+</div>
+
+{% if not submitted %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h2>Meal Plan Survey</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('plan') }}">
+                    <div class="mb-3">
+                        <label for="cravings" class="form-label">Are you craving anything specific?</label>
+                        <input type="text" class="form-control" id="cravings" name="cravings" placeholder="E.g., Italian food, seafood, spicy dishes...">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="dietary_goals" class="form-label">Any dietary goals or restrictions?</label>
+                        <input type="text" class="form-control" id="dietary_goals" name="dietary_goals" placeholder="E.g., vegetarian, low-carb, gluten-free...">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="budget" class="form-label">What's your budget?</label>
+                        <select class="form-select" id="budget" name="budget">
+                            <option value="low">Budget-friendly</option>
+                            <option value="medium" selected>Moderate</option>
+                            <option value="high">Premium</option>
+                        </select>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Generate Meal Plan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Your Preferences</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>Cravings:</h5>
+                        <p>{{ cravings if cravings else 'None specified' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Dietary Goals/Restrictions:</h5>
+                        <p>{{ dietary_goals if dietary_goals else 'None specified' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Budget:</h5>
+                        <p>{{ 'Budget-friendly' if budget == 'low' else 'Moderate' if budget == 'medium' else 'Premium' }}</p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a href="{{ url_for('plan') }}" class="btn btn-outline-secondary">Start Over</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Your 7-Day Meal Plan</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Day</th>
+                                <th scope="col">Breakfast</th>
+                                <th scope="col">Snack 1</th>
+                                <th scope="col">Lunch</th>
+                                <th scope="col">Snack 2</th>
+                                <th scope="col">Dinner</th>
+                                <th scope="col">Dessert</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for day_num in range(1, 8) %}
+                                {% set day_key = 'day' ~ day_num %}
+                                <tr>
+                                    <th scope="row">Day {{ day_num }}</th>
+                                    <td>{{ meal_plan[day_key]['breakfast'] }}</td>
+                                    <td>{{ meal_plan[day_key]['snack1'] }}</td>
+                                    <td>{{ meal_plan[day_key]['lunch'] }}</td>
+                                    <td>{{ meal_plan[day_key]['snack2'] }}</td>
+                                    <td>{{ meal_plan[day_key]['dinner'] }}</td>
+                                    <td>{{ meal_plan[day_key]['dessert'] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3 text-center">
+                    <button class="btn btn-success" onclick="window.print();">
+                        <i class="bi bi-printer"></i> Print Meal Plan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Your Grocery List</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for category, items in grocery_list.items() %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h4>{{ category }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush grocery-list">
+                                        {% for item in items %}
+                                            <li class="list-group-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input grocery-item-checkbox" type="checkbox" id="item-{{ loop.index }}">
+                                                    <label class="form-check-label" for="item-{{ loop.index }}">
+                                                        {{ item }}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="mt-4 text-center">
+                    <button class="btn btn-primary me-2" id="check-all-btn">Check All Items</button>
+                    <button class="btn btn-secondary me-2" id="uncheck-all-btn">Uncheck All Items</button>
+                    <button class="btn btn-success" onclick="window.print();">
+                        <i class="bi bi-printer"></i> Print Grocery List
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkAllBtn = document.getElementById('check-all-btn');
+        const uncheckAllBtn = document.getElementById('uncheck-all-btn');
+        const checkboxes = document.querySelectorAll('.grocery-item-checkbox');
+        
+        checkAllBtn.addEventListener('click', function() {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+        });
+        
+        uncheckAllBtn.addEventListener('click', function() {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        });
+        
+        // Add line-through style when checkbox is checked
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                if (this.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.opacity = '0.6';
+                } else {
+                    label.style.textDecoration = 'none';
+                    label.style.opacity = '1';
+                }
+            });
+        });
+    });
+</script>
+{% endif %}
+{% endblock %}

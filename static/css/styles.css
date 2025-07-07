@@ -1,0 +1,246 @@
+/* 
+ * Meal Planner App - Modern CSS Styles (2025)
+ * Mobile-first design with iOS-friendly patterns and modern aesthetics
+ */
+
+/* CSS Custom Properties for Modern Design System */
+:root {
+    /* Primary Colors with Modern Gradients */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --accent-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    
+    /* Glass Morphism */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    
+    /* Modern Shadows */
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --shadow-strong: 0 15px 35px rgba(0, 0, 0, 0.1);
+    
+    /* Typography */
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    /* Spacing for Touch Targets */
+    --touch-target: 44px;
+    --border-radius-small: 12px;
+    --border-radius-medium: 16px;
+    --border-radius-large: 24px;
+}
+
+/* Global Styles */
+body {
+    font-family: var(--font-primary);
+    color: #1a1a1a;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Modern Navigation Styles */
+.navbar {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-soft);
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-weight: var(--font-weight-bold);
+    font-size: 1.5rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.navbar-nav .nav-link {
+    font-weight: var(--font-weight-medium);
+    color: rgba(255, 255, 255, 0.9) !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: var(--border-radius-small);
+    transition: all 0.3s ease;
+    margin: 0 0.25rem;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Mobile Bottom Navigation (iOS Style) */
+@media (max-width: 768px) {
+    .navbar {
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        z-index: 1000;
+        border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+        border-bottom: none;
+        border-top: 1px solid var(--glass-border);
+        padding: 0.5rem 0;
+    }
+    
+    .navbar-collapse {
+        justify-content: center;
+    }
+    
+    .navbar-nav {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
+    
+    .navbar-nav .nav-item {
+        text-align: center;
+        flex: 1;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.25rem !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: var(--touch-target);
+    }
+    
+    .navbar-brand {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2rem;
+    }
+    
+    .navbar-toggler {
+        display: none;
+    }
+    
+    /* Add bottom padding to body for fixed bottom nav */
+    body {
+        padding-bottom: 80px;
+    }
+}
+
+/* Card Styles */
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-weight: 600;
+    color: #343a40;
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+/* Home Page */
+.display-4 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.lead {
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+/* Menu Page */
+.category-card {
+    height: 100%;
+}
+
+/* Recipe Detail Page */
+.ingredients-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.ingredients-list li:last-child {
+    border-bottom: none;
+}
+
+/* Meal Plan Page */
+.table th {
+    background-color: #f8f9fa;
+}
+
+.table-bordered th, .table-bordered td {
+    border-color: #dee2e6;
+}
+
+.grocery-list .form-check-label {
+    transition: all 0.3s ease;
+}
+
+/* Print styles */
+@media print {
+    .navbar, .btn, footer, form {
+        display: none !important;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #dee2e6;
+    }
+    
+    .card-header {
+        background-color: #f8f9fa !important;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    .table th {
+        background-color: #f8f9fa !important;
+        -webkit-print-color-adjust: exact;
+    }
+}

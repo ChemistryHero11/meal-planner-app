@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Meal Planner{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 text-center mb-5">
+        <h1 class="display-4">Welcome to Meal Planner</h1>
+        <p class="lead">Plan your meals, discover new recipes, and organize your grocery shopping</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="card-title">Menu</h2>
+                <p class="card-text">Browse our extensive collection of recipes from TheMealDB. Find recipes by category or add your own custom recipes to your collection.</p>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('menu') }}" class="btn btn-primary">Explore Recipes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="card-title">Meal Planning</h2>
+                <p class="card-text">Generate personalized weekly meal plans based on your preferences, dietary restrictions, and budget. Get a ready-to-use grocery list to make shopping easier.</p>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('plan') }}" class="btn btn-primary">Create Meal Plan</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Features</h2>
+                <div class="row mt-3">
+                    <div class="col-md-4 mb-3">
+                        <h4><i class="bi bi-search"></i> Browse Recipes</h4>
+                        <p>Explore recipes by categories like Breakfast, Lunch, Dinner, Snacks, and more.</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h4><i class="bi bi-plus-circle"></i> Add Custom Recipes</h4>
+                        <p>Easily add your own favorite recipes to include in your meal planning.</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h4><i class="bi bi-calendar-week"></i> Weekly Meal Plans</h4>
+                        <p>Generate a full 7-day meal plan based on your preferences.</p>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mb-3">
+                        <h4><i class="bi bi-cart"></i> Grocery Lists</h4>
+                        <p>Get organized grocery lists categorized by food sections.</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h4><i class="bi bi-tags"></i> Dietary Preferences</h4>
+                        <p>Customize plans based on dietary goals and restrictions.</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h4><i class="bi bi-piggy-bank"></i> Budget-Friendly</h4>
+                        <p>Plan meals according to your specified budget.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ meal.strMeal }} - Meal Planner{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <a href="{{ url_for('menu') }}" class="btn btn-sm btn-outline-secondary">&larr; Back to Menu</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}" class="img-fluid rounded mb-4">
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Tags</h3>
+            </div>
+            <div class="card-body">
+                {% if meal.strTags %}
+                    {% for tag in meal.strTags.split(',') %}
+                        <span class="badge bg-primary me-1">{{ tag.strip() }}</span>
+                    {% endfor %}
+                {% elif is_custom %}
+                    <span class="badge bg-secondary">Custom Recipe</span>
+                {% else %}
+                    <span class="text-muted">No tags available</span>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if meal.strYoutube %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Video Tutorial</h3>
+            </div>
+            <div class="card-body">
+                <a href="{{ meal.strYoutube }}" target="_blank" class="btn btn-danger">
+                    <i class="bi bi-youtube"></i> Watch on YouTube
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if not is_custom and meal.strSource %}
+        <div class="card">
+            <div class="card-header">
+                <h3>Source</h3>
+            </div>
+            <div class="card-body">
+                <a href="{{ meal.strSource }}" target="_blank" class="btn btn-link">View Original Recipe</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-7">
+        <h1 class="mb-3">{{ meal.strMeal }}</h1>
+        <p class="text-muted">Category: {{ meal.strCategory }}</p>
+        {% if meal.strArea and not is_custom %}
+            <p class="text-muted">Cuisine: {{ meal.strArea }}</p>
+        {% endif %}
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Ingredients</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% if is_custom %}
+                        {% for ingredient in meal.ingredients %}
+                            <li class="list-group-item">
+                                {{ ingredient.measure }} {{ ingredient.name }}
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        {% for ingredient in ingredients %}
+                            <li class="list-group-item">
+                                {{ ingredient.measure }} {{ ingredient.name }}
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Instructions</h3>
+            </div>
+            <div class="card-body">
+                {% if meal.strInstructions %}
+                    {% for paragraph in meal.strInstructions.split('\r\n') %}
+                        {% if paragraph.strip() %}
+                            <p>{{ paragraph }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p>No instructions available.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Nutritional Information</h3>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">
+                    Placeholder nutritional information. In a complete implementation, 
+                    this would display actual nutritional data for the recipe.
+                </p>
+                <div class="row">
+                    <div class="col-md-3 col-6 mb-3">
+                        <h5>Calories</h5>
+                        <p>350 kcal</p>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <h5>Protein</h5>
+                        <p>15g</p>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <h5>Carbs</h5>
+                        <p>40g</p>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <h5>Fat</h5>
+                        <p>12g</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

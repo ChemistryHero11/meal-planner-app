@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Custom Recipes - Meal Planner{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <h1 class="display-5">Your Custom Recipes</h1>
+        <p>
+            <a href="{{ url_for('add_recipe') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add New Recipe
+            </a>
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    {% if recipes %}
+        {% for recipe in recipes %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ recipe.strMealThumb }}" class="card-img-top" alt="{{ recipe.strMeal }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.strMeal }}</h5>
+                        <p class="card-text text-muted">Category: {{ recipe.strCategory }}</p>
+                        <a href="{{ url_for('meal_detail', meal_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <p>You haven't added any custom recipes yet.</p>
+                <p>Get started by clicking the "Add New Recipe" button above!</p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if category %}{{ category }} Recipes{% else %}Menu Categories{% endif %} - Meal Planner
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <h1 class="display-5">
+            {% if category %}
+                {{ category }} Recipes
+            {% else %}
+                Recipe Categories
+            {% endif %}
+        </h1>
+        {% if category %}
+            <p><a href="{{ url_for('menu') }}" class="btn btn-sm btn-outline-secondary">&larr; Back to Categories</a></p>
+        {% endif %}
+    </div>
+</div>
+
+{% if not category %}
+    <!-- Display API categories -->
+    <div class="mb-5">
+        <h2>Browse Categories</h2>
+        <div class="row">
+            {% for category in api_categories %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ category.strCategoryThumb }}" class="card-img-top" alt="{{ category.strCategory }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category.strCategory }}</h5>
+                            <p class="card-text">{{ category.strCategoryDescription|truncate(150) }}</p>
+                            <a href="{{ url_for('menu_category', category=category.strCategory) }}" class="btn btn-primary">View Recipes</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Display custom recipes if any -->
+    {% if custom_recipes %}
+        <div class="mt-4">
+            <h2>Your Custom Recipes</h2>
+            <div class="row">
+                {% for recipe in custom_recipes %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="{{ recipe.strMealThumb }}" class="card-img-top" alt="{{ recipe.strMeal }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ recipe.strMeal }}</h5>
+                                <p class="card-text text-muted">Category: {{ recipe.strCategory }}</p>
+                                <a href="{{ url_for('meal_detail', meal_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+{% else %}
+    <!-- Display meals for a specific category -->
+    <div class="row">
+        {% if meals %}
+            {% for meal in meals %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ meal.strMealThumb }}" class="card-img-top" alt="{{ meal.strMeal }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ meal.strMeal }}</h5>
+                            <a href="{{ url_for('meal_detail', meal_id=meal.idMeal) }}" class="btn btn-primary">View Recipe</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    No meals found for this category. Please try another category.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
