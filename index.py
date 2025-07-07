@@ -1,4 +1,4 @@
 from app import app
 
-if __name__ == "__main__":
-    app.run()
+# Vercel looks for 'app' variable at module level
+# This exports the Flask app instance for serverless deployment
