@@ -53,8 +53,8 @@ def menu():
             api_categories = []
             flash("Could not fetch categories from API, showing default categories")
             
-        # Get user's custom recipes if any
-        user_recipes = custom_recipes
+        # Custom recipes disabled in serverless environment
+        user_recipes = []
         
         return render_template(
             'menu.html', 
@@ -128,43 +128,25 @@ def meal_detail(meal_id):
 def add_recipe():
     """
     Handle custom recipe form submission.
+    Note: Custom recipes are disabled in production due to serverless limitations.
     """
     if request.method == 'POST':
-        # Process the form submission
-        recipe = {
-            'id': str(uuid.uuid4()),  # Generate a unique ID
-            'strMeal': request.form.get('title'),
-            'strCategory': request.form.get('category'),
-            'strInstructions': request.form.get('instructions'),
-            'strMealThumb': request.form.get('image_url') or 'https://via.placeholder.com/150',
-            'ingredients': []
-        }
-        
-        # Extract ingredients
-        ingredients = request.form.getlist('ingredient')
-        measures = request.form.getlist('measure')
-        
-        for i in range(len(ingredients)):
-            if ingredients[i].strip():
-                recipe['ingredients'].append({
-                    'name': ingredients[i],
-                    'measure': measures[i] if i < len(measures) else ''
-                })
-        
-        # Store the recipe
-        custom_recipes.append(recipe)
-        flash("Recipe added successfully!")
-        return redirect(url_for('custom_recipes'))
+        # In serverless environments, we can't persist data without a database
+        flash("Custom recipes are currently disabled in the live version. This feature requires a database to store recipes permanently. You can still browse recipes from TheMealDB!", "info")
+        return redirect(url_for('menu'))
     
-    # For GET requests, render the form
-    return render_template('add_recipe.html', categories=MEAL_CATEGORIES)
+    # Show info message for GET requests too
+    flash("Custom recipes are currently disabled in the live version. This feature requires a database to store recipes permanently.", "info")
+    return redirect(url_for('menu'))
 
 @app.route('/custom_recipes')
 def custom_recipes_list():
     """
     Display all user-added custom recipes.
+    Note: Custom recipes are disabled in production due to serverless limitations.
     """
-    return render_template('custom_recipes.html', recipes=custom_recipes)
+    flash("Custom recipes are currently disabled in the live version. This feature requires a database to store recipes permanently.", "info")
+    return redirect(url_for('menu'))
 
 @app.route('/plan', methods=['GET', 'POST'])
 def plan():
